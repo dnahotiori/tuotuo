@@ -1,0 +1,13 @@
+{
+    "MongodbConnectionString": "mongodb://localhost:27017",
+    "DataName": "mydata",
+    "WXToken": "9E1NzMbDDM2xmLve5nKA",
+    "WXEncodingAESKey": "e2tHRwd4bCSsNcLCPzAHK1AYj9m6zT7WnNq3u90Dhnx",
+    "Domain": "http://malldev02.youcaihua.net",
+    "WXAppID": "wxab7cf16c2024ce54",
+    "WXAppSecret": "08598e5d20f7aa90f9c22bdc5bbad509",
+    "AliPayAppID": "2017080208002578",
+    "AppPublicFile": "2017080208002578_alipay_public_key.pem",
+    "AppPrivateFile": "2017080208002578_app_private_key.pem",
+    "AliPayPublicFile": "2017080208002578_app_public_key.pem"
+}
