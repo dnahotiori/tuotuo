@@ -52,6 +52,7 @@ router.get("/qrCode", function (req, res, next) {
         res.end();
     }).catch(err => {
         console.error(err);
+        res.send(err.message);
     })
 });
 

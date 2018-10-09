@@ -16,6 +16,7 @@ var wechatOpenGatewayRouter = require('./routes/wechatOpenGateway');
 var accessBusinessRouter = require('./routes/accessBusiness');
 var weChatOpenRouter = require('./routes/weChatOpen');
 var validate = require('./custommodules/validationHandler');
+require("./autoSchedule/autoTask");
 //var log = require("./custommodules/log");
 
 var app = express();
