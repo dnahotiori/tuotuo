@@ -12,7 +12,8 @@ var config = {
     WXAppSecret: String,
     WXEncodingAESKey: String,
     WXToken: String,
-    Domain: String
+    Domain: String,
+    //publicNoID: String,
 }
 
 
@@ -31,6 +32,7 @@ class ConfigSite {
         config.WXToken = jsonObject.WXToken;
         config.WXEncodingAESKey = jsonObject.WXEncodingAESKey;
         config.Domain = jsonObject.Domain;
+       // config.publicNoID = jsonObject.publicNoID;
     }
 
     get AliPayAppID() {
@@ -77,6 +79,9 @@ class ConfigSite {
     get Domain() {
         return config.Domain;
     }
+    // get publicNoID() {
+    //     return config.publicNoID;
+    // }
 }
 
 module.exports = new ConfigSite();

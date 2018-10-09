@@ -23,6 +23,9 @@ class constPara {
     get ComponentAccessToken() {
         return 1;
     }
+    get AccessToken(){
+        return 2;
+    }
 }
 
 

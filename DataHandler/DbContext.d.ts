@@ -64,6 +64,7 @@ declare class BussinessInfoDbContext extends DbContext {
 declare class SysConfigDbContext extends DbContext {
     Save(ConfigType: number, Content: String): Promise<any>;
     GetComponentAccessToken(): Promise<any>;
+    GetAccessToken():Promise<any>;
 }
 
 

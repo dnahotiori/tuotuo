@@ -1,7 +1,10 @@
-var utilitys = require("../custommodules/Utilitys")
-var dbo = require("../DataHandler/DbContext")
+var utilitys = require("../custommodules/Utilitys");
+var dbo = require("../DataHandler/DbContext");
+var WeChatMsg = require("../WeChatSDK/wechatMessage");
+var config = require('../custommodules/ConfigSite');
+
 class bllUser {
-    UserBind(eventKey = "", fromUserName = "") {
+    UserBind(eventKey = String, fromUserName = String, toUser = String) {
         if (utilitys.isEmpty(model.EventKey) || model.EventKey.Length != 64) {
             throw new Error("用户没有权限");
         }
@@ -10,6 +13,7 @@ class bllUser {
         dbo.userdb.FindOne({ OwendEmployee: empId }).then(d => {
             if (d != null && d.openid != fromUserName) {
                 //"当前员工已被绑定"
+                WeChatMsg.ReplyText(fromUserName, toUser, "当前员工已被绑定");
             }
 
             if (d != null) {

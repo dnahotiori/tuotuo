@@ -4,6 +4,8 @@ var router = express.Router();
 var dbo = require("../DataHandler/DbContext");
 var weChatAPI = require("../WeChatSDK/weChatAPI");
 var sessionInfo = require("../custommodules/BaseResponse").SessionInfo;
+var weChatTask = require('../autoSchedule/weChatTask');
+var utilitys = require("../custommodules/Utilitys");
 
 router.get('/', function (req, res, next) {
     const url = weChatAPI.authorizeUrl("/weChat/UserAccesstoken");
@@ -31,6 +33,32 @@ router.get('/UserAccesstoken', function (req, res, next) {
         console.log(error);
         res.send(error);
     });
+});
+
+router.get("/qrCode", function (req, res, next) {
+    //res.contentType = "application/json";
+    dbo.sysConfigdb.GetAccessToken().then(d => {
+        var token = JSON.parse(d);
+        var scene_str = `${req.query.MallID}_${req.query.BusinessID}`
+        return weChatAPI.apicreateQrCode(token.access_token, scene_str);
+    }).then(d => {
+        //res.send(d);
+        return weChatAPI.apishowqrcode(d.ticket);
+
+    }).then(d => {
+        res.contentType = 'image/png';
+        res.writeHead(200, "Ok");
+        res.write(d, "binary"); //格式必须为 binary，否则会出错
+        res.end();
+    }).catch(err => {
+        console.error(err);
+    })
+});
+
+router.get("/AccessToken", function (req, res, next) {
+
+    weChatTask.RefreshAccessToken();
+    res.send("commend");
 });
 
 module.exports = router;

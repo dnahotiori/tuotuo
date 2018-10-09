@@ -3,7 +3,7 @@ var config = require("../custommodules/ConfigSite");
 var webHttps = require("./WebHttps")
 var urlencode = require('urlencode');
 
-const openApiUrl = "https://api.weixin.qq.com/";
+const openApiUrl = "https://api.weixin.qq.com";
 class weChatAPI {
     constructor() {
 
@@ -26,7 +26,7 @@ class weChatAPI {
      * @param {用户COde} code 
      */
     authorizeToken(code) {
-        var apiUrl = `${openApiUrl}sns/oauth2/access_token?appid=${config.WXAppID}&secret=${config.WXAppSecret}&code=${code}&grant_type=authorization_code`;
+        var apiUrl = `${openApiUrl}/sns/oauth2/access_token?appid=${config.WXAppID}&secret=${config.WXAppSecret}&code=${code}&grant_type=authorization_code`;
         return webHttps.HttpPOST(apiUrl, "");
     }
 
@@ -36,7 +36,14 @@ class weChatAPI {
      * @param {*} openId 
      */
     authorizeUserInfo(access_token, openId) {
-        var apiUrl = `${openApiUrl}sns/userinfo?access_token=${access_token}&openid=${openId}&lang=zh_CN`;
+        var apiUrl = `${openApiUrl}/sns/userinfo?access_token=${access_token}&openid=${openId}&lang=zh_CN`;
+        return webHttps.HttpGet(apiUrl);
+    }
+    /**
+     * 获取AccessToken
+     */
+    apiAccessToken() {
+        var apiUrl = `${openApiUrl}/cgi-bin/token?grant_type=client_credential&appid=${config.WXAppID}&secret=${config.WXAppSecret}`;
         return webHttps.HttpGet(apiUrl);
     }
 
@@ -45,7 +52,7 @@ class weChatAPI {
      * @param {*} component_verify_ticket 
      */
     apiComponentToken(component_verify_ticket) {
-        var apiUrl = `${openApiUrl}cgi-bin/component/api_component_token`;
+        var apiUrl = `${openApiUrl}/cgi-bin/component/api_component_token`;
         return webHttps.HttpPOST(apiUrl, {
             "component_appid": config.WXAppID,
             "component_appsecret": config.WXAppSecret,
@@ -57,7 +64,7 @@ class weChatAPI {
      * @param {*} component_access_token 
      */
     preAuthCode(component_access_token) {
-        var apiUrl = `${openApiUrl}cgi-bin/component/api_create_preauthcode?component_access_token=${component_access_token}`;
+        var apiUrl = `${openApiUrl}/cgi-bin/component/api_create_preauthcode?component_access_token=${component_access_token}`;
         return webHttps.HttpPOST(apiUrl, { component_appid: config.WXAppID });
 
     }
@@ -83,6 +90,17 @@ class weChatAPI {
             "component_appid": config.WXAppID,
             "authorization_code": authorization_code
         });
+    }
+
+    apicreateQrCode(access_token = String, scene_str = String) {
+        let apiUrl = `${openApiUrl}/cgi-bin/qrcode/create?access_token=${access_token}`
+        var post = { "expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": { "scene": { "scene_str": scene_str } } };
+        return webHttps.HttpPOST(apiUrl, post);
+    }
+
+    apishowqrcode(ticket) {
+        let apiUrl = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket}`
+        return webHttps.HttpGet(apiUrl, null);
     }
 }
 

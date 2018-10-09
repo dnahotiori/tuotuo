@@ -67,4 +67,11 @@ Utilitys.xmlToJson = function (xml) {
     });
     return xmlPromise;
 }
+
+Utilitys.CreateRandom = function (n = 0) {
+    if (n == undefined || n < 0) {
+        n = 100000
+    }
+    return Math.ceil(Math.random() * 100000)
+}
 module.exports = Utilitys;

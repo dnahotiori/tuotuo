@@ -123,7 +123,7 @@ class BussinessInfoDbContext extends DbContext {
                 throw new Error("数据不存在");
             }
             if (d.AuthorInfo == null) {
-               // model.Updated = Date.now();
+                // model.Updated = Date.now();
                 d.AuthorInfo.push(model);
             } else {
                 let isUpdate = false;
@@ -199,6 +199,18 @@ class SysConfigDbContext extends DbContext {
             }).catch(err => {
                 console.error(err);
             });
+    }
+    GetAccessToken() {
+        return this.FindOne({ ConfigType: constPara.AccessToken })
+        .then(d => {
+            if (d == null) {
+                return "";
+                //throw new Error("Token不存在");
+            }
+            return d.Content;
+        }).catch(err => {
+            console.error(err);
+        });
     }
 }
 

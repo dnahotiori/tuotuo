@@ -19,7 +19,7 @@ class WeChatTask {
                 }
 
                 let tokenInfo = JSON.parse(d.Content);
-                if ((d.Updated + tokenInfo.component_verify_ticket) <= Date.now - 30 * 60 * 1000) {
+                if ((d.Updated + tokenInfo.component_verify_ticket) <= (Date.now() - 30 * 60 * 1000)) {
                     return weChatAPi.apiComponentToken(ticket);
                 }
                 console.log("TOken未失效");
@@ -30,6 +30,31 @@ class WeChatTask {
                 }
                 else {
                     throw new Error(`[${d.errcode}]${d.errmsg}`);
+                }
+            }).catch(err => {
+                console.error(err);
+            });
+    }
+
+    RefreshAccessToken() {
+        dbo.sysConfigdb.FindOne({ ConfigType: constPara.AccessToken })
+            .then(d => {
+                if (d == null) {
+                    return weChatAPi.apiAccessToken();
+                }
+                let tokenInfo = JSON.parse(d.Content);
+                if ((d.Updated + tokenInfo.expires_in) <= (Date.now() - 30 * 60 * 1000)) {
+                    return weChatAPi.apiAccessToken();
+                }
+                console.log("TOken未失效");
+            }).then(d => {
+                if (d != null) {
+                    if (d.errcode == undefined || d.errcode == 0) {
+                        return dbo.sysConfigdb.Save(constPara.AccessToken, d);
+                    }
+                    else {
+                        throw new Error(`[${d.errcode}]${d.errmsg}`);
+                    }
                 }
             }).catch(err => {
                 console.error(err);

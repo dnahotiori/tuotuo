@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var xmlBody = require("../custommodules/customFilt");
 var config = require('../custommodules/ConfigSite');
+var bllUser = require("../BllHandler/bllUser");
 
 router.get('/WeChatEvent', function (req, res, next) {
 
@@ -22,9 +23,11 @@ router.post('/WeChatEvent', xmlBody.XmlBody, xmlBody.XmlDecrypt, function (req, 
     console.log(xmlJson);
     let dxmlJson = req.body.decryptXmlJson;
     console.log(dxmlJson);
+
     switch (dxmlJson.MsgType) {
         case "subscribe":
         case "SCAN":
+            bllUser.UserBind(dxmlJson.xml.EventKey, dxmlJson.xml.FromUserName, dxmlJson.xml.ToUserName);
             break;
     }
 

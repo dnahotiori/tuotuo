@@ -2,6 +2,7 @@
 //var querystring = require('querystring')
 "use strict";
 var request = require("request");
+var http = require("http");
 
 
 function FuncHttpPOST(url, requestbody) {
@@ -28,13 +29,20 @@ function FuncHttpPOST(url, requestbody) {
     return promise;
 }
 
-function FuncHttpGet(url) {
+function FuncHttpGet(url = "", encodStr = "utf-8") {
     var promise = new Promise(function (resolve, reject) {
 
-        request(url, function (error, response, body) {
+        request({
+            url: url,
+            method: "GET",
+            encoding: encodStr
+        }, function (error, response, body) {
 
             if (!error && response.statusCode == 200) {
-                console.log(body);
+                if (encodStr != null) {
+                    console.log(body);
+                }
+
                 resolve(body);
             }
             else {
@@ -46,12 +54,13 @@ function FuncHttpGet(url) {
     return promise;
 }
 
+
 class WebHttps {
     HttpPOST(url, body) {
         return FuncHttpPOST(url, body);
     }
-    HttpGet(url) {
-        return FuncHttpGet(url);
+    HttpGet(url, encodStr) {
+        return FuncHttpGet(url, encodStr);
     }
 }
 
