@@ -27,7 +27,9 @@ router.get('/', function (req, res, next) {
         "moduleCode": "40000",
         "BusinessID": "DDDDD"
     });
-    mallSdk.Exce(apiRequest)
+    mallSdk.Exce(apiRequest);
+    
+   // mallSdk.
     //var mallsdk = new mallsdkAPi("http://192.168.1.153:9999");
     //mallsdk.TestConnectionRequest({});
     res.render("index", { title: "WelCome" });

@@ -5,15 +5,10 @@ var APIRequestBase = require("./APIRequestBase");
 
 
 class DefaultClient {
-    constructor(hostName = String) {
-        this.HostName = hostName;
+    constructor(hostNames = String) {
+        this.hostName = hostNames;
     }
-    set HostName(value) {
-        this.hostName = value;
-    }
-    get HostName() {
-        return this.hostName;
-    }
+    
     Exce(api = new APIRequestBase(), authorInfo = AuthorizationInfo) {
         let headers = {};
         let apiurl = api.Url;
@@ -43,11 +38,11 @@ class DefaultClient {
     }
 
     _CreateUrl(serverUrl = String, url = String) {
-        if (this.HostName == undefined || this.HostName == null || this.HostName == "") {
+        if (this.hostName == undefined || this.hostName == null || this.hostName == "") {
             return `${serverUrl}${url}`;
         }
         else {
-            return `https://${this.HostName}${url}`;
+            return `https://${this.hostName}${url}`;
         }
     }
 
