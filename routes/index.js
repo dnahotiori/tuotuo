@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 //var mallSdkUtilitys = require("../MallSDK/SDKUtiltiys");
 var mallsdkAPi = require("../MallSDK/RequestAPI");
+var DefaultClient = require("../MallSDK/DefaultClient");
 //var log = require("../custommodules/log").logger;
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -13,9 +14,23 @@ router.get('/', function (req, res, next) {
     //     ends: "dfdfdfd",
     // };
     // var sign = mallSdkUtilitys.createSign(json, "tpKey", Date.now(), "secretkey");
-    var mallsdk = new mallsdkAPi("http://192.168.1.153:9999");
-    mallsdk.TestConnectionRequest({});
-    return res.render("index", { title: apiModel.OwnedBusiness });
+    var authInfo = {
+        ServerUrl: "http://192.168.1.153:9999",
+        TPKey: "TPKEY",
+        secretkey: "secretkey",
+        MallVer: "100000",
+    }
+    let mallSdk = new DefaultClient("");
+    let apiRequest = new mallsdkAPi.APIMallAuthorRequest({
+        "mallCode": "40000",
+        "MallID": "ffff",
+        "moduleCode": "40000",
+        "BusinessID": "DDDDD"
+    });
+    mallSdk.Exce(apiRequest)
+    //var mallsdk = new mallsdkAPi("http://192.168.1.153:9999");
+    //mallsdk.TestConnectionRequest({});
+    res.render("index", { title: "WelCome" });
 });
 
 module.exports = router;

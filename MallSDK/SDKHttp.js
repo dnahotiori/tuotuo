@@ -5,15 +5,18 @@ var request = require("request");
 var http = require("http");
 
 
-function FuncHttpPOST(url, requestbody) {
+function FuncHttpPOST(url, requestbody, header) {
     var promise = new Promise(function (resolve, reject) {
+        let defhead = {
+            "content-type": "application/json",
+        };
+        let headers = Object.assign({}, defhead, header);
+        console.log(`headers:${headers}`);
         request({
             url: url,
             method: "post",//如果是post就涉及到跨域的问题了
             json: true,
-            headers: {
-                "content-type": "application/json",
-            },
+            headers: headers,
             body: requestbody
         }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -56,8 +59,8 @@ function FuncHttpGet(url = "", encodStr = "utf-8") {
 
 
 class SDKHttp {
-    HttpPOST(url, body) {
-        return FuncHttpPOST(url, body);
+    HttpPOST(url, body, header) {
+        return FuncHttpPOST(url, body, header);
     }
     HttpGet(url, encodStr) {
         return FuncHttpGet(url, encodStr);
