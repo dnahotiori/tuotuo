@@ -21,17 +21,32 @@ router.get('/', function (req, res, next) {
         MallVer: "100000",
     }
     let mallSdk = new DefaultClient("");
-    let apiRequest = new mallsdkAPi.APIMallAuthorRequest({
-        "mallCode": "40000",
+    // let apiRequest = new mallsdkAPi.APIMallAuthorRequest({
+    //     "mallCode": "40000",
+    //     "MallID": "ffff",
+    //     "moduleCode": "40000",
+    //     "BusinessID": "DDDDD"
+    // });
+    let apiRequest = new mallsdkAPi.APIGetHomeDataFromMallRequest({
         "MallID": "ffff",
-        "moduleCode": "40000",
-        "BusinessID": "DDDDD"
+        "BusinessID": "DDDDD",
+        "IsQueryCashFinish": true,
+        "IsQueryChannel": true,
+        "IsQueryMachineScan": true,
+        "IsQueryTodayIncome": true,
+
     });
-    mallSdk.Exce(apiRequest);
-    
-   // mallSdk.
-    //var mallsdk = new mallsdkAPi("http://192.168.1.153:9999");
-    //mallsdk.TestConnectionRequest({});
+    mallSdk.Exce(apiRequest, {
+        "ServerUrl": "http://192.168.1.153:9999",
+        "secretkey": "secretkey",
+        "MallVer": "100000",
+        "TPKey": "TPKEY"
+    }).then(r => {
+
+
+    }).catch(err => {
+        console.log(err);
+    });
     res.render("index", { title: "WelCome" });
 });
 

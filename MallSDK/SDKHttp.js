@@ -23,10 +23,15 @@ function FuncHttpPOST(url, requestbody, header) {
                 console.log(body);
                 resolve(body);
             }
-            else {
+            else if (response != undefined && response != null) {
                 console.log(response.statusMessage + " " + error);
                 reject(response.statusMessage);
             }
+            else {
+                console.log(error);
+                reject(error.message);
+            }
+
         });
     });
     return promise;
