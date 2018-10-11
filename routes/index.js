@@ -38,12 +38,13 @@ router.get('/', function (req, res, next) {
     }).catch(err => {
         console.log(err);
     });
-    res.redirect("/Home/dowloand")
+    //res.redirect("/Home/dowloand")
     res.render("index", { title: "WelCome" });
 });
 
 router.get("/dowloand", function (req, res, next) {
     //let referer= req.headers.referer;
+    
     console.log(req);
     res.send(req.header);
     // res.end();

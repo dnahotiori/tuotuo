@@ -55,6 +55,7 @@ app.use('/accessBusiness', validate.AccessValidate, accessBusinessRouter);
 
 app.use('/', function (req, res, next) {
   if (req.path == "/") {
+    
     res.redirect("/Home");
   }
   next();

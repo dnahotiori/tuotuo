@@ -19,7 +19,7 @@ const BusinessInfoModel = {
     BusinessTime: String,
     ChannelNo: String,
     ChannelUrl: String,
-    ChannelKeys: String,
+    Secretkey: String,
     BusinessFunc: [{
         Type: Number,
         Name: String,
