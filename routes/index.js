@@ -14,19 +14,8 @@ router.get('/', function (req, res, next) {
     //     ends: "dfdfdfd",
     // };
     // var sign = mallSdkUtilitys.createSign(json, "tpKey", Date.now(), "secretkey");
-    var authInfo = {
-        ServerUrl: "http://192.168.1.153:9999",
-        TPKey: "TPKEY",
-        secretkey: "secretkey",
-        MallVer: "100000",
-    }
+
     let mallSdk = new DefaultClient("");
-    // let apiRequest = new mallsdkAPi.APIMallAuthorRequest({
-    //     "mallCode": "40000",
-    //     "MallID": "ffff",
-    //     "moduleCode": "40000",
-    //     "BusinessID": "DDDDD"
-    // });
     let apiRequest = new mallsdkAPi.APIGetHomeDataFromMallRequest({
         "MallID": "ffff",
         "BusinessID": "DDDDD",
