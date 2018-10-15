@@ -19,8 +19,8 @@ router.get('/', function (req, res, next) {
 
     let mallSdk = new DefaultClient("");
     let apiRequest = new mallsdkAPi.APIGetHomeDataFromMallRequest({
-        "MallID": "ffff",
-        "BusinessID": "DDDDD",
+        "MallID": "6bb95f7d-1de5-4f07-baaa-a907011725e8",
+        "BusinessID": "abd54e33-9013-46b6-9dff-a907011cb620",
         "IsQueryCashFinish": true,
         "IsQueryChannel": true,
         "IsQueryMachineScan": true,

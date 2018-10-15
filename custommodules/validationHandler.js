@@ -26,6 +26,7 @@ function AccessValidate(req = new Request(), res = new Response(), next) {
   }
   else if ((req.baseUrl + req.path) == "/accessBusiness/") {
     console.log("不验证");
+    next();
   }
   else {
     dbo.businessdb.FindOne({ OwendBusiness: BusinessID, OwendMall: MallID }).then(d => {
