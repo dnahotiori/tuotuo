@@ -5,18 +5,17 @@ var APIRequestBase = require("./APIRequestBase");
 
 
 class DefaultClient {
-    constructor(hostNames = String) {
-        this.hostName = hostNames;
+    constructor(hostName) {
+        this.hostName = hostName;
     }
-    
+
     Exce(api = new APIRequestBase(), authorInfo = AuthorizationInfo) {
         let headers = {};
         let apiurl = api.Url;
-        if (!(apiurl.indexOf("http") > -1)) {
-            apiurl = this._CreateUrl(authorInfo.ServerUrl, api.Url);
-        }
+
+        apiurl = this._CreateUrl(authorInfo.ServerUrl, api.Url);
         if (!api.IsNoSign) {
-            let Timestamp = Date.now;
+            let Timestamp = new Date().toLocaleString();
             let sign = sdkUtilitys.createSign(api.RequestBody, authorInfo.TPKey, Timestamp, authorInfo.secretkey);
             headers = {
                 TPKey: authorInfo.TPKey,
@@ -38,12 +37,14 @@ class DefaultClient {
     }
 
     _CreateUrl(serverUrl = String, url = String) {
+        let str = "";
         if (this.hostName == undefined || this.hostName == null || this.hostName == "") {
-            return `${serverUrl}${url}`;
+            str = `http://${serverUrl}${url}`;
         }
         else {
-            return `https://${this.hostName}${url}`;
+            str = `https://${this.hostName}${url}`;
         }
+        return str;
     }
 
 }

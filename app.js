@@ -14,6 +14,7 @@ var wechatRouter = require('./routes/wechat');
 var alipayRouter = require('./routes/alipay');
 var wechatOpenGatewayRouter = require('./routes/wechatOpenGateway');
 var accessBusinessRouter = require('./routes/accessBusiness');
+var microReportRouter = require("./routes/MicroReportBusiness");
 var weChatOpenRouter = require('./routes/weChatOpen');
 var validate = require('./custommodules/validationHandler');
 require("./autoSchedule/autoTask");
@@ -52,10 +53,11 @@ app.use('/weChatOpen', weChatOpenRouter);
 app.use('/weChatOpen/gateway', wechatOpenGatewayRouter);
 app.use('/alipay', alipayRouter);
 app.use('/accessBusiness', validate.AccessValidate, accessBusinessRouter);
+app.use('/MicroReport/api/v1/MallPush', validate.AccessValidate, microReportRouter);
 
 app.use('/', function (req, res, next) {
   if (req.path == "/") {
-    
+
     res.redirect("/Home");
   }
   next();

@@ -63,7 +63,6 @@ class APITestConnectionRequest extends APIRequestBase {
         super({
             url: "/MicroReport/internal/v1/MicroReportSet/Reporttestcallback",
             body: request,
-            isNoSign: true
         });
     }
 }

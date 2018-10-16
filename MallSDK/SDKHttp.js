@@ -11,7 +11,7 @@ function FuncHttpPOST(url, requestbody, header) {
             "content-type": "application/json",
         };
         let headers = Object.assign({}, defhead, header);
-        console.log(`headers:${headers}`);
+        console.log(`headers:${headers} Url:${url} body:${JSON.stringify(requestbody)}`);
         request({
             url: url,
             method: "post",//如果是post就涉及到跨域的问题了

@@ -23,8 +23,13 @@ function AccessValidate(req = new Request(), res = new Response(), next) {
   let secretkey = "";
   if (TPKey == testKey) {
     secretkey = testKey;
+    next();
   }
   else if ((req.baseUrl + req.path) == "/accessBusiness/") {
+    console.log("不验证");
+    next();
+  }
+  else if ((req.baseUrl + req.path) == "/MicroReport/api/v1/MallPush/businessinfo") {
     console.log("不验证");
     next();
   }
