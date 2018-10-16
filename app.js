@@ -15,6 +15,7 @@ var alipayRouter = require('./routes/alipay');
 var wechatOpenGatewayRouter = require('./routes/wechatOpenGateway');
 var accessBusinessRouter = require('./routes/accessBusiness');
 var microReportRouter = require("./routes/MicroReportBusiness");
+var microReportUserRouter = require("./routes/MicroReportUser");
 var weChatOpenRouter = require('./routes/weChatOpen');
 var validate = require('./custommodules/validationHandler');
 require("./autoSchedule/autoTask");
@@ -54,6 +55,8 @@ app.use('/weChatOpen/gateway', wechatOpenGatewayRouter);
 app.use('/alipay', alipayRouter);
 app.use('/accessBusiness', validate.AccessValidate, accessBusinessRouter);
 app.use('/MicroReport/api/v1/MallPush', validate.AccessValidate, microReportRouter);
+app.use('/MicroReport/api/v1/MallUser', validate.AccessValidate, microReportUserRouter);
+
 
 app.use('/', function (req, res, next) {
   if (req.path == "/") {
@@ -67,7 +70,7 @@ app.use('/', function (req, res, next) {
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   //next(createError(404));
-  baseResponse.Code = 404;
+  baseResponse.ErrorCode = 404;
   baseResponse.Message = "No Found";
   return res.status(404).jsonp(baseResponse);
   //next();
@@ -79,7 +82,7 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  baseResponse.Code = (err.status || 500);
+  baseResponse.ErrorCode = (err.status || 500);
   baseResponse.Message = err.message;
   return res.status(err.status || 500).jsonp(baseResponse);
   // render the error page

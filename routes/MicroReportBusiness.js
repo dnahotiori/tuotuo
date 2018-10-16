@@ -1,17 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var utilitys = require('../custommodules/Utilitys');
 var dbo = require("../DataHandler/DbContext");
 var businessInfo = require('../DataHandler/dbModel').BusinessInfoModel;
-var baseResponse = require('../custommodules/BaseResponse').BaseResponse;
-var costPara = require('../custommodules/constPara');
-var config = require("../custommodules/ConfigSite");
-var validation = require("../custommodules/validationHandler");
+var baseResponse = require('../custommodules/BaseResponse').MallResponse;
 var mallsdk = require("../MallSDK/DefaultClient");
 var mallApi = require("../MallSDK/RequestAPI");
 
 
 router.post('/businessinfo', function (req, res, next) {
+    let mallrsp = baseResponse;
     for (var o in businessInfo) {
         businessInfo[o] = req.body[o];
     }
@@ -24,12 +21,13 @@ router.post('/businessinfo', function (req, res, next) {
     }).catch(err => {
         console.error(err);
     });
-    baseResponse.Code = "0";
+    mallrsp.ResponseStatus.ErrorCode = "0";
     res.contentType = "application/json";
-    res.send(baseResponse);
+    res.send(mallrsp);
 });
 
 router.post("/testconnection", function (req, res, next) {
+    var mallrsp = baseResponse;
     let msdk = new mallsdk();
     var apiRequest = new mallApi.APITestConnectionRequest({
         "OwnedBusiness": req.body.OwnedBusiness,
@@ -39,11 +37,11 @@ router.post("/testconnection", function (req, res, next) {
         "TPKey": "testconnection",
         "secretkey": "testconnection"
     }).then(r => {
-        res.send(baseResponse);
+        res.send(mallrsp);
     }).catch(e => {
-        baseResponse.Code = 80002;
-        baseResponse.Message = "测试连接异常" + e;
-        res.send(baseResponse);
+        mallrsp.ResponseStatus.ErrorCode = 80002;
+        mallrsp.ResponseStatus.Message = "测试连接异常" + e;
+        res.send(mallrsp);
     });
 });
 

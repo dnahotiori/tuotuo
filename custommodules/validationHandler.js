@@ -9,7 +9,7 @@ function validate(req, res, next) {
 }
 
 function AccessValidate(req = new Request(), res = new Response(), next) {
-  let baseResponse = require('../custommodules/BaseResponse').BaseResponse;
+  let baseResponse = require('../custommodules/BaseResponse').MallResponse;
   let dbo = require("../DataHandler/DbContext");
   let sdkUtilitys = require("../MallSDK/SDKUtiltiys");
 
@@ -40,10 +40,12 @@ function AccessValidate(req = new Request(), res = new Response(), next) {
 
       let sign = sdkUtilitys.createSign(req.body, TPKey, Timestamp, secretkey);
       if (sign != reSign) {
+        console.log("[99998]验签失败");
         throw new Error("[99998]验签失败");
       }
       let total = Date.now() - Date.parse(Timestamp);
       if (total > 10 * 60 * 1000) {
+        console.log("[99997]请求过时");
         throw new Error("[99997]请求过时");
       }
       if (TPKey != testkey) {
@@ -53,9 +55,9 @@ function AccessValidate(req = new Request(), res = new Response(), next) {
       next();
     }).catch(err => {
       console.log(err);
-      baseResponse.Code = 500;
-      baseResponse.Message = err.message;
-      return res.status(500).jsonp(baseResponse);
+      baseResponse.ResponseStatus.ErrorCode = 500;
+      baseResponse.ResponseStatus.Message = err.message;
+      res.send(baseResponse);
     });
   }
 
