@@ -84,7 +84,7 @@ app.use(function (err, req, res, next) {
 
   baseResponse.ErrorCode = (err.status || 500);
   baseResponse.Message = err.message;
-  return res.status(err.status || 500).jsonp(baseResponse);
+  return res.status(err.status || 200).jsonp(baseResponse);
   // render the error page
   //res.status(err.status || 500);
   //res.render('error');

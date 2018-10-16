@@ -63,7 +63,7 @@ router.post('/', function (req, res, next) {
   }).catch(err => {
     console.error(err);
   });
-  baseResponse.Code = "0";
+  baseResponse.ErrorCode = "0";
   res.contentType = "application/json";
   res.send(baseResponse);
 });
@@ -110,7 +110,7 @@ router.post("/AuthorizationInfo", function (req, res, next) {
     res.send(resModel);
   }).catch(err => {
     console.error(err);
-    baseResponse.Code = "9999";
+    baseResponse.ErrorCode = "9999";
     baseResponse.Message = err;
     res.send(baseResponse);
   });
@@ -123,7 +123,7 @@ router.post("/CancelAuhtor", function (req, res, next) {
   let apiType = req.body.ApiType;
   dbo.businessdb.CancelAuhtor(accessInfo.BusinessID, apiType);
 
-  baseResponse.Code = "0";
+  baseResponse.ErrorCodede = "0";
   res.send(baseResponse);
 });
 
