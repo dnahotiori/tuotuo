@@ -72,7 +72,7 @@ class _SDKUtilitys {
 
             //排序字典
             var dict = this.dicSort(param);
-
+            console.log(`排序后字典 ${JSON.stringify(dict)}`)
             // 2.将参数名和参数值组成字符串，将secretkey加到字符串前后
             var vsecret = dict[secretkeyName.toLowerCase()];
             var str = "";
@@ -83,12 +83,13 @@ class _SDKUtilitys {
                     str += dict[item];
                 }
             }
-            
-            str += vsecret;
+
             str = str.toLowerCase();
+            str += vsecret;
 
             // 3.用MD5算法生成签名
-            var signResult = this.GetMD5(str);
+            var signResult = this.GetMD5(str).toUpperCase();
+            console.log(`待加密：${str} MD5:${signResult}`);
 
             return signResult;
         }

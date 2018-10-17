@@ -5,6 +5,7 @@ var mallsdk = require("../MallSDK/DefaultClient");
 var mallApi = require("../MallSDK/RequestAPI");
 var wechatSdk = require("../WeChatSDK/weChatAPI");
 var businessInfo = require('../DataHandler/dbModel').BusinessInfoModel;
+var bllWeChat = require("../BllHandler/bllWeChat");
 var constPara = require("../custommodules/constPara");
 
 
@@ -55,18 +56,32 @@ router.post("/GetWXQRCCode", function (req, res, next) {
             res.send(mallrsp);
         }
         else {
-            return dbo.sysConfigdb.FindOne({ "ConfigType": constPara.AccessToken });
+            return bllWeChat.GetWxQRCode(req.body.BusinessID, req.body.EmpId);
 
         }
     }).then(data => {
-        var content = data.Content;
-        var jobj = JSON.parse(content);
-        //return wechatSdk.apicreateQrCode(jobj.);
+        if (data["errcode"] != undefined) {
+            mallrsp.errcode = data.errcode;
+            mallrsp.errmsg = data.errmsg;
+        }
+        else {
+            mallrsp.expire_seconds = data.expire_seconds;
+            mallrsp.ticket = data.ticket;
+            mallrsp.url = data.url;
+        }
+        res.send(mallrsp);
     }).catch(err => {
         console.log(err);
-        throw new Error(err);
+        mallrsp.ResponseStatus.ErrorCode = "9900";
+        mallrsp.ResponseStatus.Message = err;
+        res.send(mallrsp);
     });
 
+});
+
+router.post("/SendPeriodMessage", function (req, res, next) {
+    var mallrsp = require('../custommodules/BaseResponse').MallResponse;
+    res.send(mallrsp);
 });
 
 module.exports = router;

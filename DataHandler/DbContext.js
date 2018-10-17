@@ -179,7 +179,7 @@ class SysConfigDbContext extends DbContext {
                 return this.Add({ ConfigType: ConfigType, Content: Content });
             }
             else {
-                d.Updated = Date.now;
+                d.Updated = Date.now();
                 d.Content = Content;
                 return this.Update(d, { ConfigType: d.ConfigType });
             }

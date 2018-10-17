@@ -3,7 +3,7 @@ var config = require("../custommodules/ConfigSite");
 var webHttps = require("./WebHttps")
 var urlencode = require('urlencode');
 
-const openApiUrl = "https://api.weixin.qq.com";
+const openApiUrl = "http://weixinproxy.youcaihua.net";//"https://api.weixin.qq.com";
 class weChatAPI {
     constructor() {
 

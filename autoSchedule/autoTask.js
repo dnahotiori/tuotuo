@@ -9,6 +9,7 @@ function RefreshToken() {
     schedule.scheduleJob(rule, function () {
         weChatTask.RefreshAccessToken();
     });
+    weChatTask.RefreshAccessToken();
 }
 
 module.exports = RefreshToken();

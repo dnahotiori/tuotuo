@@ -19,7 +19,7 @@ function AccessValidate(req = new Request(), res = new Response(), next) {
   let BusinessID = req.headers["businessid"];
   let MallID = req.headers["mallid"];
   let reSign = req.headers["sign"];
-  let testKey = "testconnection";
+  const testKey = "testconnection";
   let secretkey = "";
   if (TPKey == testKey) {
     secretkey = testKey;
@@ -48,7 +48,7 @@ function AccessValidate(req = new Request(), res = new Response(), next) {
         console.log("[99997]请求过时");
         throw new Error("[99997]请求过时");
       }
-      if (TPKey != testkey) {
+      if (TPKey != testKey) {
         req.body.BusinessID = BusinessID;
         req.body.MallID = MallID;
       }

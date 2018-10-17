@@ -14,7 +14,7 @@ router.post('/GetWXBindUser', function (req, res, next) {
 
     var mallrsp = require('../custommodules/BaseResponse').MallResponse;
     // res.contentType = "application/json";
-    mallrsp.ErrorCode = "0";
+    //mallrsp.ResponseStatus.ErrorCode = "0";
     dbo.userdb.Find({ "OwendBusiness": req.body.BusinessID, "OwendMall": req.body.MallID }).then(data => {
         let list = [];
         data.forEach((item, index) => {
@@ -29,8 +29,8 @@ router.post('/GetWXBindUser', function (req, res, next) {
         res.send(mallrsp);
     }).catch(e => {
         console.log(e);
-        mallrsp.ErrorCode = "80003";
-        mallrsp.Message = e;
+        mallrsp.ResponseStatus.ErrorCode = "80003";
+        mallrsp.ResponseStatus.Message = e;
         res.send(mallrsp);
     });
 });

@@ -5,7 +5,6 @@
 const BusinessInfoModel = {
     _id: String,
     BusinessName: String,
-    BusinessName: String,
     City: String,
     Province: String,
     Area: String,

@@ -43,17 +43,18 @@ class WeChatTask {
                     return weChatAPi.apiAccessToken();
                 }
                 let tokenInfo = JSON.parse(d.Content);
-                if ((d.Updated + tokenInfo.expires_in) <= (Date.now() - 30 * 60 * 1000)) {
+                if ((d.Updated + tokenInfo.expires_in*1000) <= (Date.now() - 30 * 60 * 1000)) {
                     return weChatAPi.apiAccessToken();
                 }
                 console.log("TOken未失效");
             }).then(d => {
                 if (d != null) {
-                    if (d.errcode == undefined || d.errcode == 0) {
+                    let jobj=JSON.parse(d);
+                    if (jobj.errcode == undefined || jobj.errcode == 0) {
                         return dbo.sysConfigdb.Save(constPara.AccessToken, d);
                     }
                     else {
-                        throw new Error(`[${d.errcode}]${d.errmsg}`);
+                        throw new Error(`[${jobj.errcode}]${jobj.errmsg}`);
                     }
                 }
             }).catch(err => {
