@@ -14,17 +14,10 @@ class BllweChat {
             var bidStr = BussId.replace(/-/g, "");
             var empStr = EmpId.replace(/-/g, "");
             return wechatSdk.apicreateQrCode(jobj.access_token, bidStr + empStr);
-        })
-            // .then(data => {
-            //     console.log(data);
-            //     if (data["errcode"] != undefined && data["errcode"] != 0) {
-            //         throw new Error(`[${data.errcode}]${data.errmsg}`);
-            //     }
-            // })
-            .catch(err => {
-                console.log(err);
-                throw new Error(err);
-            });
+        }).catch(err => {
+            console.log(err);
+            throw new Error(err);
+        });
     }
 }
 

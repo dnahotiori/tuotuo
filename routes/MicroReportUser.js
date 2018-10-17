@@ -1,13 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var utilitys = require('../custommodules/Utilitys');
 var dbo = require("../DataHandler/DbContext");
-var businessInfo = require('../DataHandler/dbModel').BusinessInfoModel;
-var costPara = require('../custommodules/constPara');
-var config = require("../custommodules/ConfigSite");
-var validation = require("../custommodules/validationHandler");
-var mallsdk = require("../MallSDK/DefaultClient");
-var mallApi = require("../MallSDK/RequestAPI");
 
 
 router.post('/GetWXBindUser', function (req, res, next) {
