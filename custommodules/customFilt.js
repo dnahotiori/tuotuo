@@ -42,7 +42,7 @@ function xmlDecrypt(req, res, next) {
         msg_signature: req.query.signature
     });
     let contentXml = msgCrypt.decrypt(xmlJson.xml.Encrypt);
-
+    console.log(contentXml);
     utilitys.xmlToJson(contentXml).then(d => {
         req.body.decryptXmlJson = d;
         next();

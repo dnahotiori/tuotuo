@@ -94,13 +94,19 @@ class weChatAPI {
 
     apicreateQrCode(access_token = String, scene_str = String) {
         let apiUrl = `${openApiUrl}/cgi-bin/qrcode/create?access_token=${access_token}`
-        var post = { "expire_seconds": 604800, "action_name": "QR_SCENE", "action_info": { "scene": { "scene_str": scene_str } } };
+        var post = { "expire_seconds": 604800, "action_name": "QR_STR_SCENE", "action_info": { "scene": { "scene_str": scene_str } } };
         return webHttps.HttpPOST(apiUrl, post);
     }
 
     apishowqrcode(ticket) {
         let apiUrl = `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticket}`
         return webHttps.HttpGet(apiUrl, null);
+    }
+    apisendMessage(access_token = String, touser = String, content = String) {
+        let apiUrl = `${openApiUrl}/cgi-bin/message/custom/send?access_token=${access_token}`;
+
+        var post = { "touser": touser, "msgtype": "text", "text": { "content": content } };
+        return webHttps.HttpPOST(apiUrl, post);
     }
 }
 

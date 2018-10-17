@@ -24,15 +24,15 @@ router.post('/WeChatEvent', xmlBody.XmlBody, xmlBody.XmlDecrypt, function (req, 
     let dxmlJson = req.body.decryptXmlJson;
     console.log(dxmlJson);
 
-    switch (dxmlJson.MsgType) {
+    switch (dxmlJson.xml.Event) {
         case "subscribe":
         case "SCAN":
             bllUser.UserBind(dxmlJson.xml.EventKey, dxmlJson.xml.FromUserName, dxmlJson.xml.ToUserName);
             break;
     }
 
-    res.contentType = "text/html";
-    res.send("success");
+   // res.contentType = "text/html";
+    res.send("");
 });
 
 

@@ -1,6 +1,7 @@
 var wxBizMsgCrypt = require("../WeChatSDK/WXBizMsgCrypt");
 var config = require("../custommodules/ConfigSite");
 var utilitys = require("../custommodules/Utilitys");
+var wechatApi=require("./weChatAPI");
 class wechatMessage {
     constructor() {
 
@@ -13,7 +14,7 @@ class wechatMessage {
         var eMessage = msgCrypt.encrypt(xml);
         var sign = utilitys.NewGuid().replace(/-/g, "");
         var nonce = utilitys.CreateRandom();
-        var resXml = `<xml><Encrypt><![CDATA[${eMessage}]]></Encrypt><MsgSignature>${sign}</MsgSignature><TimeStamp>${createTime}</TimeStamp><Nonce>${nonce}</Nonce></xml>`
+        var resXml = `<xml><Encrypt><![CDATA[${eMessage}]]></Encrypt><MsgSignature>${sign}</MsgSignature><TimeStamp>${createTime}</TimeStamp><Nonce>${nonce}</Nonce></xml>`;
         return resXml;
     }
 

@@ -52,7 +52,7 @@ declare class UserDbContext extends DbContext {
      * @param expiresin 
      * @param refreshtoken 
      */
-    Save(openid: String, name: String, headUrl: String, accesstoke: String, expiresin: Number, refreshtoken: String): Promise<any>;
+    Save(info = dbmodel.UserInfoModel): Promise<any>;
 }
 
 declare class BussinessInfoDbContext extends DbContext {
@@ -64,7 +64,7 @@ declare class BussinessInfoDbContext extends DbContext {
 declare class SysConfigDbContext extends DbContext {
     Save(ConfigType: number, Content: String): Promise<any>;
     GetComponentAccessToken(): Promise<any>;
-    GetAccessToken():Promise<any>;
+    GetAccessToken(): Promise<any>;
 }
 
 

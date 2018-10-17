@@ -43,7 +43,7 @@ class WeChatTask {
                     return weChatAPi.apiAccessToken();
                 }
                 let tokenInfo = JSON.parse(d.Content);
-                if ((d.Updated + tokenInfo.expires_in*1000) <= (Date.now() - 30 * 60 * 1000)) {
+                if ((d.Updated + tokenInfo.expires_in) <= (Date.now() - 30 * 60 * 1000)) {
                     return weChatAPi.apiAccessToken();
                 }
                 console.log("TOken未失效");

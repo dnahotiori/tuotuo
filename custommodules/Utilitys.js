@@ -11,6 +11,15 @@ Utilitys.NewGuid = function () {
     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }
 
+Utilitys.ToGuid = function (str = String) {
+    //9b654d7f-c462-46e8-9c4c-a96900f7c0e5
+    if (str.length != 32) {
+        return "";
+    }
+    return `${str.substring(0, 8)}-${str.substring(8, 12)}-${str.substring(12, 16)}-${str.substring(16, 20)}-${str.substring(20, 32)}`;
+    //return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+}
+
 Utilitys.Base64Decrypt = function (str) {
     if (str == undefined || str == null || str == "") {
         return "";

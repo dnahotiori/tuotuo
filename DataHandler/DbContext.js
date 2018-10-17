@@ -51,16 +51,26 @@ class UserDbContext extends DbContext {
         super(userSchema, "o_UserInfo");
     }
 
-    Save(openid, name, headUrl, accesstoken, expiresin, refreshtoken) {
-        return this.FindOne({ openId: openid }).then(r => {
+    Save(data = dbmodel.UserInfoModel) {
+
+        let info = Object.assign({}, {}, data);
+        return this.FindOne({
+            openId: info.openid,
+            OwendBusiness: info.OwendBusiness,
+            OwendMall: info.OwendMall,
+            OwendEmployee: info.OwendEmployee
+        }).then(r => {
             if (r == null) {
                 return this.Add({
-                    openId: openid,
-                    accesstoken: accesstoken,
-                    expiresin: expiresin,
-                    refreshtoken: refreshtoken,
-                    name: name,
-                    headUrl: headUrl
+                    openId: info.openid,
+                    accesstoken: info.accesstoken,
+                    expiresin: info.expiresin,
+                    refreshtoken: info.refreshtoken,
+                    name: info.name,
+                    headUrl: info.headUrl,
+                    OwendBusiness: info.OwendBusiness,
+                    OwendMall: info.OwendMall,
+                    OwendEmployee: info.OwendEmployee,
                 });
             }
             else {
@@ -202,15 +212,15 @@ class SysConfigDbContext extends DbContext {
     }
     GetAccessToken() {
         return this.FindOne({ ConfigType: constPara.AccessToken })
-        .then(d => {
-            if (d == null) {
-                return "";
-                //throw new Error("Token不存在");
-            }
-            return d.Content;
-        }).catch(err => {
-            console.error(err);
-        });
+            .then(d => {
+                if (d == null) {
+                    return "";
+                    //throw new Error("Token不存在");
+                }
+                return d.Content;
+            }).catch(err => {
+                console.error(err);
+            });
     }
 }
 
