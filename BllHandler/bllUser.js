@@ -20,6 +20,7 @@ class bllUser {
                 //"当前员工已被绑定"
 
                 sendMessage(fromUserName, "当前员工已被绑定");
+                return;
             }
 
             empInfo = datas.find((value, index) => {
@@ -27,14 +28,13 @@ class bllUser {
             });
             if (empInfo != undefined && empInfo.OwendEmployee != empId) {
                 sendMessage(fromUserName, "当前微信号已绑定该门店");
+                return;
             }
             else if (empInfo == undefined || empInfo == null) {
-                return dbo.userdb.Save(fromUserName);
-            }
-            else {
-                return dbo.userdb.Update(empInfo, { _id: empInfo._id });
-            }
+                empInfo = { "openId": fromUserName, "OwendBusiness": busid, "OwendEmployee": empId };
 
+            }
+            return dbo.userdb.Save(empInfo);
         }).then(data => {
             return dbo.businessdb.FindOne({ OwendBusiness: busid });
         }).then(data => {

@@ -70,9 +70,10 @@ app.use('/', function (req, res, next) {
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   //next(createError(404));
-  baseResponse.ErrorCode = 404;
-  baseResponse.Message = "No Found";
-  return res.status(404).jsonp(baseResponse);
+  var brsp=new baseResponse();
+  brsp.ErrorCode = 404;
+  brsp.Message = "No Found";
+  return res.status(404).jsonp(brsp);
   //next();
 });
 
@@ -81,10 +82,10 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  baseResponse.ErrorCode = (err.status || 500);
-  baseResponse.Message = err.message;
-  return res.status(err.status || 200).jsonp(baseResponse);
+  var brsp=new baseResponse();
+  brsp.ErrorCode = (err.status || 500);
+  brsp.Message = err.message;
+  return res.status(err.status || 200).jsonp(brsp);
   // render the error page
   //res.status(err.status || 500);
   //res.render('error');

@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var dbo = require("../DataHandler/DbContext");
+var MallResponse = require('../custommodules/BaseResponse').MallResponse;
 
 
 router.post('/GetWXBindUser', function (req, res, next) {
 
-    var mallrsp = require('../custommodules/BaseResponse').MallResponse;
+    var mallrsp = new MallResponse();
     // res.contentType = "application/json";
     //mallrsp.ResponseStatus.ErrorCode = "0";
-    dbo.userdb.Find({ "OwendBusiness": req.body.BusinessID, "OwendMall": req.body.MallID }).then(data => {
+    dbo.userdb.Find({ "OwendBusiness": req.body.BusinessID, "IsDelete": false }).then(data => {
         let list = [];
         data.forEach((item, index) => {
             list.push({
@@ -30,7 +31,7 @@ router.post('/GetWXBindUser', function (req, res, next) {
 
 router.post("/DeleteUserBindWXToMicroReport", function (req, res, next) {
 
-    var mallrsp = require('../custommodules/BaseResponse').MallResponse;
+    var mallrsp = new MallResponse();
     dbo.userdb.Delete(req.body.ID).catch(err => {
         console.log(err);
     });

@@ -54,19 +54,24 @@ class UserDbContext extends DbContext {
     Save(data = dbmodel.UserInfoModel) {
 
         let info = Object.assign({}, {}, data);
-        return this.FindOne({
-            openId: info.openid,
-            OwendBusiness: info.OwendBusiness,
-            OwendMall: info.OwendMall,
-            OwendEmployee: info.OwendEmployee
-        }).then(r => {
+        let wheres = {
+            openId: info.openId
+        };
+        if (!utitliys.isEmpty(data.OwendBusiness)) {
+            wheres["OwendBusiness"] = info.OwendBusiness;
+        }
+        if (!utitliys.isEmpty(data.OwendEmployee)) {
+            wheres["OwendEmployee"] = info.OwendEmployee;
+        }
+        return this.FindOne(wheres).then(r => {
             if (r == null) {
                 return this.Add({
-                    openId: info.openid,
+                    _id: utitliys.NewGuid(),
+                    openId: info.openId,
                     accesstoken: info.accesstoken,
                     expiresin: info.expiresin,
                     refreshtoken: info.refreshtoken,
-                    name: info.name,
+                    nickname: info.nickname,
                     headUrl: info.headUrl,
                     OwendBusiness: info.OwendBusiness,
                     OwendMall: info.OwendMall,
@@ -75,12 +80,14 @@ class UserDbContext extends DbContext {
             }
             else {
                 return this.Update({
-                    accesstoken: accesstoken,
-                    expiresin: expiresin,
-                    refreshtoken: refreshtoken,
-                    name: name,
-                    headUrl: headUrl
-                }, { openId: openid })
+                    $set: {
+                        accesstoken: info.accesstoken,
+                        expiresin: info.expiresin,
+                        refreshtoken: info.refreshtoken,
+                        nickname: info.nickname,
+                        headUrl: info.headUrl
+                    }
+                }, { _id: r._id })
             }
         }).catch(err => {
             console.log(err);

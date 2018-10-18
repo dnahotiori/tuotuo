@@ -12,6 +12,11 @@ router.get('/', function (req, res, next) {
     res.redirect(url);
 });
 
+router.get('/Index', function (req, res, next) {
+    const url = weChatAPI.authorizeUrl("/MicroReport/weChat/UserAccesstoken");
+    res.redirect(url);
+});
+
 router.get('/UserAccesstoken', function (req, res, next) {
     var accessInfo = {};
     weChatAPI.authorizeToken(req.query.code).then(r => {
@@ -21,14 +26,21 @@ router.get('/UserAccesstoken', function (req, res, next) {
     }).then(r => {
         const data = JSON.parse(r);
         console.log(data);
-        return dbo.userdb.Save(data.openid, data.nickname, data.headimgurl, accessInfo.access_token, accessInfo.expires_in, accessInfo.refresh_token);
+        return dbo.userdb.Save({
+            "openId": data.openid,
+            "nickname": data.nickname,
+            "headUrl": data.headimgurl,
+            "accesstoken": accessInfo.access_token,
+            "expiresin": accessInfo.expires_in,
+            "refreshtoken": accessInfo.refresh_token
+        });
     }).then(r => {
         console.log(r);
         sessionInfo.accessToken = accessInfo.access_token;
         sessionInfo.openId = accessInfo.openid;
         req.session.Info = sessionInfo;
 
-        res.redirect("/users");
+        res.redirect("/index.html#/index");
     }).catch(error => {
         console.log(error);
         res.send(error);

@@ -7,10 +7,11 @@ var wechatSdk = require("../WeChatSDK/weChatAPI");
 var businessInfo = require('../DataHandler/dbModel').BusinessInfoModel;
 var bllWeChat = require("../BllHandler/bllWeChat");
 var constPara = require("../custommodules/constPara");
+var MallResponse = require('../custommodules/BaseResponse').MallResponse;
 
 
 router.post('/businessinfo', function (req, res, next) {
-    let mallrsp = require('../custommodules/BaseResponse').MallResponse;
+    let mallrsp = new MallResponse();
     for (var o in businessInfo) {
         businessInfo[o] = req.body[o];
     }
@@ -29,7 +30,7 @@ router.post('/businessinfo', function (req, res, next) {
 });
 
 router.post("/testconnection", function (req, res, next) {
-    var mallrsp = require('../custommodules/BaseResponse').MallResponse;
+    let mallrsp = new MallResponse();
     let msdk = new mallsdk();
     var apiRequest = new mallApi.APITestConnectionRequest({
         "OwnedBusiness": req.body.OwnedBusiness,
@@ -48,11 +49,11 @@ router.post("/testconnection", function (req, res, next) {
 });
 
 router.post("/GetWXQRCCode", function (req, res, next) {
-    var mallrsp = require('../custommodules/BaseResponse').MallResponse;
+    let mallrsp = new MallResponse();
     dbo.userdb.FindOne({ "OwendBusiness": req.body.BusinessID, OwendEmployee: req.body.EmpId }).then(data => {
         if (data != null) {
-            mallrsp.ResponseStatus.ErrorCode = "99123";
-            mallrsp.ResponseStatus.Message = "员工已经绑定微信";
+            mallrsp.errcode = "99123";
+            mallrsp.errmsg = "员工已经绑定微信";
             res.send(mallrsp);
         }
         else {
@@ -60,6 +61,8 @@ router.post("/GetWXQRCCode", function (req, res, next) {
 
         }
     }).then(data => {
+        if (data == undefined)
+            return;
         if (data["errcode"] != undefined) {
             mallrsp.errcode = data.errcode;
             mallrsp.errmsg = data.errmsg;
@@ -80,7 +83,7 @@ router.post("/GetWXQRCCode", function (req, res, next) {
 });
 
 router.post("/SendPeriodMessage", function (req, res, next) {
-    var mallrsp = require('../custommodules/BaseResponse').MallResponse;
+    let mallrsp = new MallResponse();
     res.send(mallrsp);
 });
 
